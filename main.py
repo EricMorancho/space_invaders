@@ -25,6 +25,11 @@ playerY_change = 0
 score_value = 0
 font = pygame.font.Font("04B_30__.TTF", 24)
 
+textX = 600
+textY = 10
+
+over_font = pygame.font.Font("04B_30__.TTF", 64)
+
 alienImg = []
 alien1X = []
 alien1Y = []
@@ -46,11 +51,6 @@ bulletY = 480
 bulletX_change = 0
 bulletY_change = 10
 bullet_state = "ready"
-
-
-
-textX = 600
-textY = 10
 
 
 alien2Img = []
@@ -101,6 +101,10 @@ for a in range(num_of_enemies4):
 def show_score(x,y):
     score = font.render("Score: " + str(score_value), True, (0,255,0))
     screen.blit(score, (x, y))
+
+def game_over_text():
+    over_text = over_font.render("GAME OVER", True, (255, 0, 0))
+    screen.blit(over_text, (150, 200))
 
 def player(x, y):
     screen.blit(playerimg, (x, y))
@@ -201,6 +205,15 @@ while True:
         playerX = 736
 
     for i in range(num_of_enemies):
+
+        if alien1Y[i] > 440:
+            for j in range(num_of_enemies):
+                alien1Y[j] = 2000
+            game_over_text()
+            bullet_state = "ready"
+            break
+
+
         alien1X[i] += alien1X_change[i]
         if alien1X[i] <= 0:
             if score_value < 75:
@@ -231,6 +244,14 @@ while True:
 
     if score_value > 10:
        for r in range(num_of_enemies2):
+
+            if alien2Y[r] > 480:
+               for h in range(num_of_enemies2):
+                    alien2Y[h] = 2000
+               game_over_text()
+               bullet_state = "ready"
+               break
+
             alien2X[r] += alien2X_change[r]
             if alien2X[r] <= 0:
                 if score_value < 100:
@@ -261,6 +282,14 @@ while True:
 
     if score_value >= 25:
         for f in range(num_of_enemies3):
+
+            if alien3Y[f] > 480:
+                for k in range(num_of_enemies3):
+                    alien1Y[k] = 2000
+                game_over_text()
+                bullet_state= "ready"
+                break
+
             alien3X[f] += alien3X_change[f]
             if alien3X[f] <= 0:
                 if score_value < 150:
@@ -291,6 +320,14 @@ while True:
 
     if score_value >= 50:
         for a in range(num_of_enemies4):
+
+            if alien4Y[a] > 480:
+                for l in range(num_of_enemies4):
+                    alien1Y[l] = 2000
+                game_over_text()
+                bullet_state = "ready"
+                break
+
             alien4X[a] += alien4X_change[a]
             if alien4X[a] <= 0:
                 if score_value < 200:
@@ -327,6 +364,7 @@ while True:
     if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+
 
     player(playerX, playerY)
     show_score(textX, textY)
